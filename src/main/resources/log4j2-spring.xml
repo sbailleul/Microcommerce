@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="DEBUG">
+    <Appenders>
+        <Console name="LogToConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <RollingFile name="RollingFile"
+                     fileName="./logs/spring-boot-logger-log4j2.log"
+                     filePattern="./logs/spring-boot-logger-log4j2-%d{-dd-MMMM-yyyy}-%i.log.gz"
+                     ignoreExceptions="false">
+            <PatternLayout>
+                <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+
+            <!-- Matches only TRACE level -->
+            <LevelRangeFilter minLevel="DEBUG" maxLevel="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+
+            <Policies>
+                <!-- rollover on startup, daily and when the file reaches
+                    10 MegaBytes -->
+                <!--                <OnStartupTriggeringPolicy />-->
+                <SizeBasedTriggeringPolicy
+                        size="10 MB" />
+                <!--                <TimeBasedTriggeringPolicy />-->
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.ecommerce.microcommerce" level="debug" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+        </Logger>
+<!--        <Root level="error">-->
+<!--            <AppenderRef ref="RollingFile"/>-->
+<!--        </Root>-->
+    </Loggers>
+</Configuration>
